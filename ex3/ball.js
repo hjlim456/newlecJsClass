@@ -7,14 +7,17 @@ function Ball(x, y, color) {
     this.dy = 0;
     this.color = color || "black";
     this.isActive = false;
+    this.radius = 30
+    this.speed= 1;
 }
-console.log(Ball.prototype.constructor)
+console.log(Ball.prototype)
 
 
 Ball.prototype = {
 
     constructor: Ball,
 
+    
     moveTo: function (dx, dy) {
 
         this.dx = dx;
@@ -36,15 +39,15 @@ Ball.prototype = {
             this.vy = 0;
         }
 
-        this.x += this.vx
-        this.y += this.vy
-        console.log(this.x, this.y)
+        this.x += this.vx*this.speed
+        this.y += this.vy*this.speed
+        // console.log(this.x, this.y)
     },
 
     draw: function (ctx) {
         var shape = new Path2D()
 
-        shape.arc(this.x, this.y, 30, 0, Math.PI * 2)
+        shape.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
         // ctx.clearRect(0, 0, 900, 700)
         // ctx.fillStyle = this.color;
         var originColor = ctx.fillStyle
@@ -76,10 +79,10 @@ Ball.prototype = {
 
     isLocated: function (x, y) {
         var result =
-            (this.x - 30 < x &&
-                x <= this.x + 30) &&
-            (this.y - 30 <= y &&
-                y <= this.y + 30)
+            (this.x - this.radius < x &&
+                x <= this.x + this.radius) &&
+            (this.y - this.radius <= y &&
+                y <= this.y + this.radius)
 
         return result;
 
