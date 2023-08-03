@@ -10,14 +10,15 @@ balls.push(ball3)
 
 /** @type {HTMLCanvasElement} */
 // var canvas = document.body.firstElementChild
-var canvas = document.querySelector("#canvas")//id가 canvas인애를 캔버스로 쓰겟다.
-var ctx = canvas.getContext("2d")//2d그림을 그릴거면 2d를가져와야함
+var canvas = document.querySelector("#canvas")//id가 canvas인 요소를 반환한다.
+                                                //즉 html파일에서 id가 canvas인 canvas영역을 반환한것.
+var ctx = canvas.getContext("2d")//canvas로 저장한 canvas태그영역에다가 2d그림을 그릴거다.
 var curBall = ball1;
 
 curBall.setActive() //인자안써주면 undefined가 전송됨
 
 
-var upButton = new Button(800, 100, 30)
+var upButton = new Button(800, 100)
 
 
 canvas.onclick = function (e) {//event
@@ -39,15 +40,14 @@ canvas.onclick = function (e) {//event
 
     }
 
-}
+}//onlick 끝
 
 window.setInterval(function () {//setInterval도 일종의 반복이구나.
 
     for (var ball of balls) {//볼을 전체를 순회하면서
 
-        if (curBall === ball)
+        if (curBall === ball)//현재공과 비교할공이 같으면 아래의 충돌검사를 안할것이다.
             continue;
-
 
         var w = curBall.x - ball.x
         var h = curBall.y - ball.y
@@ -55,29 +55,25 @@ window.setInterval(function () {//setInterval도 일종의 반복이구나.
         var rSum = curBall.radius + ball.radius
         // console.log("d의거리는" + d, "rSUM의거리는" + rSum)
 
-        if (d <= rSum) {
-            var idxBall = balls.indexOf(ball)
+        if (d <= rSum) {//d가 rSum보다 작아지면 충돌하면
+            var idxBall = balls.indexOf(ball)//그 해당ball의 인덱스를 찾자.
             balls.splice(idxBall, 1)
         }
     }
-
-
-
-   
-    for (var ball of balls){
+// ---------------------------------------------------------------
+    for (var ball of balls) {
         ball.update()
-       
     }
-    ctx.clearRect(0, 0, 900, 700)
 
+    ctx.clearRect(0, 0, 900, 700)
+    
     for (var ball of balls)
         ball.draw(ctx)
 
-    upButton.update();
+    // upButton.update();
     upButton.draw(ctx)
 
 }, 17)//mms
-
 
 
 

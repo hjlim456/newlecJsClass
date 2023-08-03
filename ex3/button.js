@@ -1,8 +1,9 @@
 function Button(x, y, radius) {
     this.x = x || 0
     this.y = y || 0;
-    this.radius = 30
+    this.radius = radius||30
 
+    this.pos = 1;
     this.invalide()
 }
 
@@ -11,15 +12,16 @@ Button.prototype = {
 
     constructor: Button,
 
-
     update: function(){
-        this.radius++;
-        if(this.radius>40)
-            this.radius--;
+        this.radius += this.pos;
 
-        if(this.radius<30)
-            this.radius++;
-    
+        this.invalide()
+
+        if(this.radius == 40)
+         this.pos*=-1
+
+         if(this.radius == 30)
+         this.pos*=-1
 
     },
     draw: function (ctx) {
@@ -43,14 +45,16 @@ Button.prototype = {
         // return result;
 
         var isIn = ctx.isPointInPath(this.shapePath, x, y)
-        console.log(isIn)
+        console.log(isIn)//true or falase
         return isIn
 
     },
 
-    invalide: function () {
+    invalide: function () {//update된 값들에 따라 점점 커지는삼각형
+
         var d = this.radius
         var hw = Math.sqrt((d * d) - ((d / 2) * (d / 2)))
+
         var pos1 = { x: this.x, y: this.y - d }
         var pos2 = { x: this.x - hw, y: this.y + (d / 2) }
         var pos3 = { x: this.x + hw, y: this.y + (d / 2) }
@@ -61,10 +65,16 @@ Button.prototype = {
         this.shapePath.lineTo(pos3.x, pos3.y)
     },
 
+    
     action: function () {
-        this.radius = 40;
-        this.invalide()
+        var intervalId = setInterval(() => {
+            this.update();
+        }, 5);
 
+        setTimeout(() => {
+            clearInterval(intervalId); // setInterval을 중지합니다.
+            // console.log("타이머가 중지되었습니다.");
+          }, 100);
     }
 
 
@@ -72,19 +82,3 @@ Button.prototype = {
 
 }
 
-
-30~39까지+
-4~31까지 -
-
-
-if(30<=this.radius&&this.radius<=39){
-    radius++
-}
-if(31<=this.radius&&this.radius<=40){
-    radius--
-}
-
-if(30<=this.radius&&this.radius<=39){
-    radius++
-   if(this.radius==40)
-}
